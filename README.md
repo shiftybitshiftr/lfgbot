@@ -56,6 +56,8 @@ LFGbot is a basic Discord starboard bot.
    python lfgbot.py
    ```
 
+![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/4ca94f33-1093-400e-8913-fb57f023eff6)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
