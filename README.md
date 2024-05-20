@@ -57,7 +57,7 @@ stupid simple starbot for discord
    python lfgbot.py
    ```
 
-![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/f2529381-f04b-403f-8876-e0639fabec00)
+![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/d0744b59-a4b4-4b57-b796-98651317b3b0)
 
 ## License
 
