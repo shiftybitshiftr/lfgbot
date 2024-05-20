@@ -1,7 +1,7 @@
 
 # LFGbot
 
-stupid simple starbot for discord
+stupid simple starboard bot for discord
 
 ![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/cc261d14-43bf-437d-a1e1-1d5b776a6a82)
 
