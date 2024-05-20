@@ -57,6 +57,7 @@ stupid simple starboard bot for discord
    python lfgbot.py
    ```
 
-![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/be516f28-e7ef-4712-9ad4-1c7055ecbb69)
+![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/ea567595-653c-4bdb-89c8-16f09d8f66eb)
+
 
 
