@@ -6,10 +6,10 @@ import asyncio
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Your bot's token
-TOKEN = 'YOUR_TOKEN_HERE'
+TOKEN = 'token-placeholder'
 
 # The ID of the channel where the message will be reposted
-TARGET_CHANNEL_ID = YOUR_CHANNEL_ID_HERE
+TARGET_CHANNEL_ID = channel-id-placeholder
 
 # Number of reactions to trigger repost
 REACTION_THRESHOLD = 3
@@ -29,6 +29,11 @@ class MyClient(discord.Client):
             try:
                 logging.debug(f'Reaction added: {payload.emoji} in channel {payload.channel_id} for message {payload.message_id}')
 
+                # Ignore reactions in the target reposting channel
+                if payload.channel_id == TARGET_CHANNEL_ID:
+                    logging.debug(f'Ignoring reaction in target reposting channel.')
+                    return
+
                 # Get the channel or thread
                 channel = self.get_channel(payload.channel_id) or await self.fetch_channel(payload.channel_id)
                 logging.debug(f'Fetched channel: {channel}')
@@ -36,20 +41,30 @@ class MyClient(discord.Client):
                 message = await channel.fetch_message(payload.message_id)
                 logging.debug(f'Fetched message: {message.content} by {message.author}')
 
+                # Ignore reactions from the message author
+                if message.author.id == payload.user_id:
+                    logging.debug(f'Ignoring reaction from message author.')
+                    return
+
                 # Check if the message has already been reposted
                 if message.id in reposted_messages:
                     logging.debug(f'Message {message.id} has already been reposted. Skipping.')
                     return
 
-                # Count total number of reactions
-                total_reactions = sum(reaction.count for reaction in message.reactions)
-                logging.debug(f'Total reactions on message: {total_reactions}')
+                # Count total number of valid reactions
+                total_reactions = sum(reaction.count for reaction in message.reactions if reaction.count > 1)
+                logging.debug(f'Total valid reactions on message: {total_reactions}')
 
                 if total_reactions >= REACTION_THRESHOLD:
                     target_channel = self.get_channel(TARGET_CHANNEL_ID)
                     logging.debug(f'Target channel: {target_channel}')
 
-                    repost_content = f"**Reposted Message from {message.author.mention}:**\n{message.content}"
+                    # Generate the permalink
+                    guild = message.guild
+                    permalink = f"https://discord.com/channels/{guild.id}/{channel.id}/{message.id}"
+
+                    repost_content = f"{permalink}\n**New highlight from {message.author.mention}:**\n> {message.content}\n"
+
                     if message.attachments:
                         logging.debug(f'Message has attachments: {message.attachments}')
                         for attachment in message.attachments:
@@ -63,7 +78,7 @@ class MyClient(discord.Client):
                     # Add message ID to reposted_messages set
                     reposted_messages.add(message.id)
                 else:
-                    logging.debug(f'Not enough reactions on message: {total_reactions}')
+                    logging.debug(f'Not enough valid reactions on message: {total_reactions}')
 
             except Exception as e:
                 logging.error(f'Error processing reaction: {e}')
