@@ -1,7 +1,8 @@
 
 # LFGbot
 
-LFGbot is a basic Discord starboard bot.
+stupid simple starbot for discord
+
 ![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/cc261d14-43bf-437d-a1e1-1d5b776a6a82)
 
 ## Features
