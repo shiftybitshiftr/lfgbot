@@ -24,7 +24,7 @@ LFGbot is a basic Discord starboard bot.
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/LFGBot.git
+   git clone https://github.com/shiftybitshiftr/lfgbot.git
    cd LFGBot
    ```
 
@@ -53,7 +53,7 @@ LFGbot is a basic Discord starboard bot.
 
 2. Run the bot:
    ```sh
-   python highlight_bot.py
+   python lfgbot.py
    ```
 
 ## License
