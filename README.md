@@ -58,7 +58,3 @@ stupid simple starbot for discord
    ```
 
 ![image](https://github.com/shiftybitshiftr/lfgbot/assets/13820335/d0744b59-a4b4-4b57-b796-98651317b3b0)
-
-## License
-
-This project is licensed under the MIT License.
