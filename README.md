@@ -11,6 +11,7 @@ LFGbot is a basic Discord starboard bot.
 - Ignores reactions from the message author.
 - Ignores reactions in the target reposting channel.
 - Reposts include a permalink to the original message and the message content in a block quote.
+- Reuploads message attachments
 
 ## Requirements
 
