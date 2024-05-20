@@ -24,8 +24,8 @@ LFGbot is a basic Discord starboard bot.
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/HighlightBot.git
-   cd HighlightBot
+   git clone https://github.com/yourusername/LFGBot.git
+   cd LFGBot
    ```
 
 2. Create a virtual environment and activate it:
