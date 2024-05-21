@@ -17,7 +17,7 @@ stupid simple starboard bot for discord
 ## Requirements
 
 - Python 3.7+
-- `discord.py` library
+- `discord` library
 - `logging` library
 - `asyncio` library
 
