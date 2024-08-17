@@ -1,6 +1,8 @@
 import discord
 import logging
 import asyncio
+import json
+import os
 
 # Set up logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -14,10 +16,47 @@ TARGET_CHANNEL_ID = channel-id-placeholder
 # Number of reactions to trigger repost
 REACTION_THRESHOLD = 3
 
+# File to store reposted message IDs
+REPOSTED_MESSAGES_FILE = 'reposted_messages.json'
+
 # Set to keep track of reposted message IDs
 reposted_messages = set()
 # Lock to handle concurrent access to reposted_messages
 repost_lock = asyncio.Lock()
+
+def save_reposted_messages():
+    try:
+        with open(REPOSTED_MESSAGES_FILE, 'w') as f:
+            json.dump(list(reposted_messages), f)
+        logging.info(f"Successfully saved {len(reposted_messages)} reposted message IDs to {REPOSTED_MESSAGES_FILE}.")
+    except IOError as e:
+        logging.error(f"IOError while saving reposted messages to {REPOSTED_MESSAGES_FILE}: {e}")
+    except json.JSONEncodeError as e:
+        logging.error(f"JSON encoding error while saving reposted messages: {e}")
+    except Exception as e:
+        logging.error(f"Unexpected error while saving reposted messages: {e}")
+    else:
+        logging.debug(f"Reposted messages saved successfully. Current count: {len(reposted_messages)}")
+
+def load_reposted_messages():
+    global reposted_messages
+    try:
+        if os.path.exists(REPOSTED_MESSAGES_FILE):
+            with open(REPOSTED_MESSAGES_FILE, 'r') as f:
+                reposted_messages = set(json.load(f))
+            logging.info(f"Loaded {len(reposted_messages)} reposted message IDs from {REPOSTED_MESSAGES_FILE}.")
+        else:
+            logging.info(f"Reposted messages file not found. Starting with an empty set.")
+            reposted_messages = set()
+    except json.JSONDecodeError as e:
+        logging.error(f"Error decoding JSON from {REPOSTED_MESSAGES_FILE}: {e}. Starting with an empty set.")
+        reposted_messages = set()
+    except Exception as e:
+        logging.error(f"Unexpected error loading reposted messages: {e}. Starting with an empty set.")
+        reposted_messages = set()
+
+# Load reposted messages from file
+load_reposted_messages()
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -77,6 +116,8 @@ class MyClient(discord.Client):
                     
                     # Add message ID to reposted_messages set
                     reposted_messages.add(message.id)
+                    # Save updated reposted_messages to file
+                    save_reposted_messages()
                 else:
                     logging.debug(f'Not enough valid reactions on message: {total_reactions}')
 
@@ -88,6 +129,7 @@ intents.reactions = True
 intents.messages = True
 intents.guilds = True
 intents.message_content = True
+
 
 client = MyClient(intents=intents)
 client.run(TOKEN)
